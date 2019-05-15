@@ -1,0 +1,6 @@
+export const LANDING = '/'
+export const SIGN_IN = '/sign-in'
+export const SIGN_UP = '/sign-up'
+export const PROFILE = '/profile'
+export const FORGOT_PASSWORD = '/forgot-password'
+export const USER_POSTS = '/view-posts'
