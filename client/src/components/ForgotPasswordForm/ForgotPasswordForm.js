@@ -1,5 +1,8 @@
 import React, { useState } from "react"
+
 import { auth } from "../../firebase"
+import * as ROUTES from "../../constants/routes"
+import { HandleRedirect } from "../index"
 
 export const ForgotPasswordForm = () => {
   const [email, setEmail] = useState("")
@@ -19,14 +22,19 @@ export const ForgotPasswordForm = () => {
       })
   }
 
+  if (sentSuccess)
+    return (
+      <HandleRedirect
+        to={ROUTES.LANDING}
+        message={"Please check your e-mail for a password reset link."}
+      />
+    )
+
   return (
     <form onSubmit={handleSendEmail}>
       {error && <div>Error: {error.message}</div>}
-      {sentSuccess && (
-        <div>Please check your email for a password reset link</div>
-      )}
       <input value={email} onChange={e => setEmail(e.target.value)} />
-      <input type="submit" disabled={sentSuccess} value="Submit" />
+      <input type="submit" value="Submit" disabled={sentSuccess} />
     </form>
   )
 }

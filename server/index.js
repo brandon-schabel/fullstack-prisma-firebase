@@ -8,9 +8,11 @@ const typeDefs = `
 
 const resolvers = {
   Query: {
-    hello: (_, { name }) => `Hello ${name || "World"}`
+    hello: (_, { name }) => `Hello ${name || "World"}`,
+    users: (parent, args, ctx, info) => {
+
+    }
   }
 }
 
-const server = new GraphQLServer({ typeDefs, resolvers })
-server.start(() => console.log("Server is running on localhost:4000"))
+ vbserver.start(() => console.log("Server is running on localhost:4000"))

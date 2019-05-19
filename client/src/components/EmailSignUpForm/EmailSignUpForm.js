@@ -1,27 +1,39 @@
 import React, { useState } from "react"
-import { auth } from "../../firebase"
 
-// ToDo convert to form and handle error, and succesfful login, redirect
+import { auth } from "../../firebase"
+import * as ROUTES from "../../constants/routes"
+import { HandleRedirect } from "../index"
+
 export const EmailSignUpForm = () => {
   const [email, setEmail] = useState("")
   const [pass, setPass] = useState("")
   const [confirmPass, setConfirmPass] = useState("")
+  const [signUpSuccess, setSignUpSuccess] = useState(false)
   const [error, setError] = useState(null)
 
-  const signUp = () => {
+  const handleSignUp = event => {
+    event.preventDefault()
     auth
       .createUserWithEmailAndPassword(email, pass)
-      .then(response => {
-        console.log(response)
+      .then(() => {
+        setSignUpSuccess(true)
       })
       .catch(error => {
         setError(error)
       })
   }
 
+  if (signUpSuccess)
+    return (
+      <HandleRedirect
+        to={ROUTES.LANDING}
+        message={"Successfully Signed Up"}
+      />
+    )
+
   const enabled = !(pass.length > 5 && pass === confirmPass)
   return (
-    <div>
+    <form onSubmit={handleSignUp}>
       {error && <div>Error: {error.message}</div>}
       <input value={email} onChange={e => setEmail(e.target.value)} />
       <input
@@ -34,9 +46,7 @@ export const EmailSignUpForm = () => {
         value={confirmPass}
         onChange={e => setConfirmPass(e.target.value)}
       />
-      <button onClick={signUp} disabled={enabled}>
-        Sign Up
-      </button>
-    </div>
+      <input disabled={enabled} type="submit" value="Submit" />
+    </form>
   )
 }
