@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { Form } from 'semantic-ui-react'
 
 import { auth } from "../../firebase"
 import * as ROUTES from "../../constants/routes"
@@ -31,10 +32,10 @@ export const ForgotPasswordForm = () => {
     )
 
   return (
-    <form onSubmit={handleSendEmail}>
+    <Form onSubmit={handleSendEmail}>
       {error && <div>Error: {error.message}</div>}
-      <input value={email} onChange={e => setEmail(e.target.value)} />
-      <input type="submit" value="Submit" disabled={sentSuccess} />
-    </form>
+      <Form.Input value={email} onChange={e => setEmail(e.target.value)} />
+      <Form.Input type="submit" value="Submit" disabled={sentSuccess} />
+    </Form>
   )
 }

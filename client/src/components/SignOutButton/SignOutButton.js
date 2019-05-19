@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { useAuthState } from "react-firebase-hooks/auth"
+import { Button } from 'semantic-ui-react'
 
 import { auth } from "../../firebase"
 
@@ -20,7 +21,7 @@ export const SignOutButton = props => {
     return (
       <div>
         <div>{error && <div>Error: {error.message}</div>}</div>
-        <button onClick={logout}>Log out</button>
+        <Button onClick={logout}>Log out</Button>
       </div>
     )
   }

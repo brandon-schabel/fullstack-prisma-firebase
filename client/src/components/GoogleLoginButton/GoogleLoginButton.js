@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { Button } from 'semantic-ui-react'
 
 import { auth, googleProvider } from "../../firebase"
 import * as ROUTES from "../../constants/routes"
@@ -30,7 +31,7 @@ export const GoogleLoginButton = () => {
   return (
     <div>
       <div>{error && <div>Error: {error.message}</div>}</div>
-      <button onClick={signInGoogle}>Google Sign In</button>
+      <Button onClick={signInGoogle}>Google Sign In</Button>
     </div>
   )
 }

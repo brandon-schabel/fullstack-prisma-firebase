@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { useAuthState } from "react-firebase-hooks/auth"
+import { Form } from "semantic-ui-react"
 
 import { auth } from "../../firebase"
 import { HandleRedirect } from "../index"
@@ -39,20 +40,19 @@ export const ChangePasswordForm = () => {
     )
 
   return (
-    <form onSubmit={handleChangePassword}>
+    <Form onSubmit={handleChangePassword}>
       {error && <div>Error occured: {error.message} </div>}
-      <input
+      <Form.Input
         type="password"
         value={newPass}
         onChange={e => setNewPass(e.target.value)}
       />
-      <input
+      <Form.Input
         type="password"
         value={confirmNewPass}
         onChange={e => setConfirmNewPass(e.target.value)}
       />
-
-      <input disabled={enabled} type="submit" value="Submit" />
-    </form>
+      <Form.Input disabled={enabled} type="submit" value="Submit" />
+    </Form>
   )
 }

@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { Link } from "react-router-dom"
+import { Form } from 'semantic-ui-react'
 
 import { auth } from "../../firebase"
 import * as ROUTES from "../../constants/routes"
@@ -32,16 +33,16 @@ export const EmailLoginForm = () => {
     )
 
   return (
-    <form onSubmit={handleLogin}>
+    <Form onSubmit={handleLogin}>
       {error && <div>Error: {error.message}</div>}
-      <input value={email} onChange={e => setEmail(e.target.value)} />
-      <input
+      <Form.Input value={email} onChange={e => setEmail(e.target.value)} />
+      <Form.Input
         type="password"
         value={pass}
         onChange={e => setPass(e.target.value)}
       />
-      <input type="submit" value="Submit" />
+      <Form.Input type="submit" value="Submit" />
       <Link to={ROUTES.FORGOT_PASSWORD}>Forgot Password</Link>
-    </form>
+    </Form>
   )
 }

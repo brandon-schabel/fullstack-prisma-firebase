@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { useAuthState } from "react-firebase-hooks/auth"
+import { Form } from 'semantic-ui-react'
 
 import { db, auth } from "../../firebase"
 import { AuthGuard } from ".."
@@ -25,10 +26,10 @@ export const CreatePost = () => {
   return (
     <AuthGuard>
       {error && <div>Error Occured: {error}</div>}
-      <form onSubmit={handleSubmitPost}>
-        <input onChange={e => setText(e.target.value)} value={text} />
-        <input type="submit" value="Create Post" />
-      </form>
+      <Form onSubmit={handleSubmitPost}>
+        <Form.Input onChange={e => setText(e.target.value)} value={text} />
+        <Form.Input type="submit" value="Create Post" />
+      </Form>
     </AuthGuard>
   )
 }
