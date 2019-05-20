@@ -4,18 +4,22 @@ import { BrowserRouter } from "react-router-dom"
 import "semantic-ui-css/semantic.min.css"
 import ApolloClient from "apollo-boost"
 import { ApolloProvider } from "react-apollo"
+import { auth } from "./firebase"
 
 import App from "./App"
 
+const token = auth.currentUser ? auth.currentUser.getIdToken(true) : ""
+
 const client = new ApolloClient({
-  uri: "http://localhost:4000"
+  uri: "http://localhost:4000",
+  headers: { authorization: token }
 })
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <BrowserRouter>
+  <BrowserRouter>
+    <ApolloProvider client={client}>
       <App />
-    </BrowserRouter>
-  </ApolloProvider>,
+    </ApolloProvider>
+  </BrowserRouter>,
   document.getElementById("root")
 )

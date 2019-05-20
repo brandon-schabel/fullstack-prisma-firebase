@@ -25,7 +25,7 @@ const createFirebaseAuth = ({
   if (!firebase) {
     firebaseAdmin.initializeApp({
       credential: firebaseAdmin.credential.cert(serviceAccount),
-      databaseURL: `https://${process.env.FIREBASE_DATABASE_NAME}.firebaseio.com`
+      databaseURL: `https://${process.env.DATABASE_URL}.firebaseio.com`
     });
   }
 
