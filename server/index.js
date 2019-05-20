@@ -1,32 +1,45 @@
 import { GraphQLServer } from "graphql-yoga"
-
-import app from "firebase/app"
-import "firebase/auth"
-
-const config = {
-  apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: process.env.AUTH_DOMAIN,
-  databaseURL: process.env.DATABASE_URL,
-  projectId: process.env.PROJECT_ID,
-  storageBucket: process.env.STORAGE_BUCKET,
-  messagingSenderId: process.env.MESSAGING_SENDER_ID,
-  appId: process.env.APPI_ID
-}
-
-const firebaseApp = app.initializeApp(config)
-
+const { Prisma } = require("prisma-binding")
+import { auth } from "express-firebase-middleware"
+import admin from "./firebase-admin"
 
 const typeDefs = `
+  type User {
+    id: ID!
+    name: String
+  }
   type Query {
-    hello(name: String): String!
+    users: [User!]!
+  }
+  type Mutation {
+    createUser(name: String): User
   }
 `
 
 const resolvers = {
   Query: {
-    hello: (_, { name }) => `Hello ${name || "World"}`,
-    users: (parent, args, ctx, info) => {}
+    users: (root, args, ctx, info) => ctx.prisma.query.users({}, info)
+  },
+  Mutation: {
+    createUser: (root, args, ctx, info) =>
+      ctx.prisma.mutation.createUser({ data: { name: args.name } }, info)
   }
 }
 
-vbserver.start(() => console.log("Server is running on localhost:4000"))
+const server = new GraphQLServer({
+  typeDefs,
+  resolvers,
+  context: req => ({
+    ...req,
+    prisma: new Prisma({
+      typeDefs: "./prisma/generated/prisma-client/prisma-schema.js",
+      endpoint:
+        "https://us1.prisma.sh/brandon-dd6787/fullstack-prisma-firebase/dev",
+      debug: true
+    })
+  })
+})
+
+server.express.use(auth)
+
+server.start(() => console.log("Server is running on http://localhost:4000"))
